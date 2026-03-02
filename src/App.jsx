@@ -1,3 +1,9 @@
+import Dashboard from "./pages/Dashboard";
+import Habits from "./pages/Habits";
+import Journal from "./pages/Journal";
+import Focus from "./pages/Focus";
+import Planner from "./pages/Planner";
+import Settings from "./pages/Settings";
 import { useState } from "react";
 
 function NavItem({ label, active, onClick }) {
@@ -28,15 +34,15 @@ export default function App() {
       {/* Main content */}
       <main className="flex-1 px-4 pb-24">
         <div className="rounded-2xl bg-white p-5 shadow">
-          <h2 className="text-lg font-semibold">{tab}</h2>
-          <p className="mt-2 text-gray-600">
-            {tab === "Dashboard" && "Overview of your 90-day progress."}
-            {tab === "Habits" && "Add and tick habits."}
-            {tab === "Journal" && "Daily reflection and mood."}
-            {tab === "Focus" && "Pomodoro timer."}
-            {tab === "Deadlines" && "Track important dates."}
-            {tab === "Settings" && "Preferences and data controls."}
-          </p>
+          <div className="rounded-2x1 bg-white p-5 shadow">
+            {tab === "Dashboard" && <Dashboard />}
+            {tab === "Habits" && <Habits />}
+            {tab === "Journal" && <Journal />}
+            {tab === "Focus" && <Focus />}
+            {tab === "Planner" && <Planner />}
+            {tab === "Settings" && <Settings />}
+          </div>
+          
 
           {/* quick dashboard placeholders match mockups */}
           {tab === "Dashboard" && (
@@ -85,7 +91,7 @@ export default function App() {
           <NavItem label="Habits" active={tab === "Habits"} onClick={() => setTab("Habits")} />
           <NavItem label="Journal" active={tab === "Journal"} onClick={() => setTab("Journal")} />
           <NavItem label="Focus" active={tab === "Focus"} onClick={() => setTab("Focus")} />
-          <NavItem label="Deadlines" active={tab === "Deadlines"} onClick={() => setTab("Deadlines")} />
+          <NavItem label="Planner" active={tab === "Planner"} onClick={() => setTab("Planner")} />
           <NavItem label="Settings" active={tab === "Settings"} onClick={() => setTab("Settings")} />
         </div>
       </nav>
