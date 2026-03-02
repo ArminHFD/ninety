@@ -1,9 +1,9 @@
-import Dashboard from "./pages/Dashboard";
-import Habits from "./pages/Habits";
-import Journal from "./pages/Journal";
-import Focus from "./pages/Focus";
-import Planner from "./pages/Planner";
-import Settings from "./pages/Settings";
+import Dashboard from "./pages/Dashboard.jsx";
+import Habits from "./pages/Habits.jsx";
+import Journal from "./pages/Journal.jsx";
+import Focus from "./pages/Focus.jsx";
+import Planner from "./pages/Planner.jsx";
+import Settings from "./pages/Settings.jsx";
 import { useState } from "react";
 
 function NavItem({ label, active, onClick }) {
@@ -11,7 +11,7 @@ function NavItem({ label, active, onClick }) {
     <button
       onClick={onClick}
       className={[
-        "flex-1 py-2 text-sm font-medium",
+        "flex-1 py-3 text-sm font-medium",
         active ? "text-gray-900" : "text-gray-500",
       ].join(" ")}
     >
@@ -34,53 +34,12 @@ export default function App() {
       {/* Main content */}
       <main className="flex-1 px-4 pb-24">
         <div className="rounded-2xl bg-white p-5 shadow">
-          <div className="rounded-2x1 bg-white p-5 shadow">
-            {tab === "Dashboard" && <Dashboard />}
-            {tab === "Habits" && <Habits />}
-            {tab === "Journal" && <Journal />}
-            {tab === "Focus" && <Focus />}
-            {tab === "Planner" && <Planner />}
-            {tab === "Settings" && <Settings />}
-          </div>
-          
-
-          {/* quick dashboard placeholders match mockups */}
-          {tab === "Dashboard" && (
-            <div className="mt-5 space-y-3">
-              <div className="rounded-xl bg-gray-50 p-4">
-                <div className="text-sm font-semibold">Today’s Progress</div>
-                <div className="mt-2 text-sm text-gray-600">
-                  Habits: 0/0 • Journal: — • Focus: 0
-                </div>
-              </div>
-
-              <div className="rounded-xl bg-gray-50 p-4">
-                <div className="text-sm font-semibold">Streak</div>
-                <div className="mt-2 text-sm text-gray-600">0 day streak</div>
-              </div>
-
-              <div className="rounded-xl bg-gray-50 p-4">
-                <div className="text-sm font-semibold">Next Priority</div>
-                <div className="mt-2 text-sm text-gray-600">
-                  No deadlines added yet
-                </div>
-              </div>
-
-              <div className="rounded-xl bg-gray-50 p-4">
-                <div className="text-sm font-semibold">Your 90 Day Journey</div>
-                <div className="mt-2 text-sm text-gray-600">Day 0 / 90</div>
-                <div className="mt-3 grid grid-cols-10 gap-1">
-                  {Array.from({ length: 30 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="h-3 w-3 rounded-sm bg-gray-200"
-                      title={`Day ${i + 1}`}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
+          {tab === "Dashboard" && <Dashboard />}
+          {tab === "Habits" && <Habits />}
+          {tab === "Journal" && <Journal />}
+          {tab === "Focus" && <Focus />}
+          {tab === "Planner" && <Planner />}
+          {tab === "Settings" && <Settings />}
         </div>
       </main>
 
