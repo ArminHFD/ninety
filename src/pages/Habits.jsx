@@ -1,50 +1,93 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { load, save } from "../utils/storage";
+
+function todayKey() {
+  const d = new Date();
+  return d.toISOString().slice(0, 10); // YYYY-MM-DD
+}
+
+const DEFAULT_HABITS = [
+  { id: 1, name: "Drink 2L Water" },
+  { id: 2, name: "Go to the Gym" },
+  { id: 3, name: "Read 10 Pages" },
+];
 
 export default function Habits() {
-  const [habits, setHabits] = useState([
-    { id: 1, name: "Drink 2L Water", completed: false },
-    { id: 2, name: "Go to the Gym", completed: false },
-    { id: 3, name: "Read 10 Pages", completed: false },
-  ]);
+  const dateKey = todayKey();
 
-  const toggleHabit = (id) => {
-    setHabits(
-      habits.map((habit) =>
-        habit.id === id
-          ? { ...habit, completed: !habit.completed }
-          : habit
-      )
-    );
-  };
+  const [habits, setHabits] = useState(() =>
+    load("ninety.habits", DEFAULT_HABITS)
+  );
 
-  const completedCount = habits.filter(h => h.completed).length;
+  const [completedMap, setCompletedMap] = useState(() =>
+    load(`ninety.habits.completed.${dateKey}`, {})
+  );
+
+  // Save habits list
+  useEffect(() => {
+    save("ninety.habits", habits);
+  }, [habits]);
+
+  // Save today's completion
+  useEffect(() => {
+    save(`ninety.habits.completed.${dateKey}`, completedMap);
+  }, [completedMap, dateKey]);
+
+  function toggleHabit(id) {
+    setCompletedMap((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  }
+
+  function addHabit() {
+    const name = prompt("New habit name:");
+    if (!name) return;
+
+    const trimmed = name.trim();
+    if (!trimmed) return;
+
+    setHabits((prev) => [
+      ...prev,
+      { id: Date.now(), name: trimmed },
+    ]);
+  }
+
+  // Simple calculation (no useMemo)
+  const completedCount = habits.filter(
+    (h) => completedMap[h.id]
+  ).length;
 
   return (
-    <div className="space-y-4">
-      <div>
-        <h2 className="text-lg font-semibold">Habits</h2>
-        <p className="mt-1 text-gray-600">
-          Today’s Habits – {completedCount} / {habits.length}
-        </p>
-      </div>
+    <div className="rounded-3xl bg-gray-200 p-5">
+      <h2 className="text-3xl font-extrabold">Habits</h2>
+      <p className="mt-1 text-sm font-semibold text-gray-700">
+        Today’s Habits — {completedCount} / {habits.length}
+      </p>
 
-      <div className="space-y-3">
-        {habits.map((habit) => (
+      <div className="mt-4 space-y-3">
+        {habits.map((h) => (
           <div
-            key={habit.id}
-            className="flex items-center justify-between rounded-xl bg-gray-50 p-3"
+            key={h.id}
+            className="flex items-center justify-between rounded-2xl bg-white px-4 py-4 shadow-sm"
           >
-            <span>{habit.name}</span>
+            <div className="text-base font-medium">
+              {h.name}
+            </div>
             <input
               type="checkbox"
-              checked={habit.completed}
-              onChange={() => toggleHabit(habit.id)}
+              checked={!!completedMap[h.id]}
+              onChange={() => toggleHabit(h.id)}
+              className="h-5 w-5"
             />
           </div>
         ))}
       </div>
 
-      <button className="mt-4 rounded-xl bg-gray-200 px-4 py-2 text-sm">
+      <button
+        onClick={addHabit}
+        className="mt-5 rounded-2xl bg-white px-5 py-3 text-sm font-semibold shadow-sm"
+      >
         Add Habit +
       </button>
     </div>
