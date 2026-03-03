@@ -53,7 +53,6 @@ export default function Habits() {
     ]);
   }
 
-  // Simple calculation (no useMemo)
   const completedCount = habits.filter(
     (h) => completedMap[h.id]
   ).length;
