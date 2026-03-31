@@ -53,6 +53,16 @@ export default function Habits() {
     ]);
   }
 
+  function deleteHabit(id) {
+    setHabits((prev) => prev.filter((habit) => habit.id !== id));
+  
+    setCompletedMap((prev) => {
+      const updated = { ...prev };
+      delete updated[id];
+      return updated;
+    });
+  }
+
   const completedCount = habits.filter(
     (h) => completedMap[h.id]
   ).length;
@@ -67,19 +77,28 @@ export default function Habits() {
       <div className="mt-4 space-y-3">
         {habits.map((h) => (
           <div
-            key={h.id}
-            className="flex items-center justify-between rounded-2xl bg-white px-4 py-4 shadow-sm"
-          >
-            <div className="text-base font-medium">
-              {h.name}
-            </div>
+          key={h.id}
+          className="flex items-center justify-between rounded-2xl bg-white px-4 py-4 shadow-sm"
+        >
+          <div className="flex items-center gap-3">
             <input
               type="checkbox"
               checked={!!completedMap[h.id]}
               onChange={() => toggleHabit(h.id)}
               className="h-5 w-5"
             />
+            <div className="text-base font-medium">
+              {h.name}
+            </div>
           </div>
+        
+          <button
+            onClick={() => deleteHabit(h.id)}
+            className="text-sm font-semibold text-gray-400 hover:text-gray-700"
+          >
+            Delete
+          </button>
+        </div>
         ))}
       </div>
 
