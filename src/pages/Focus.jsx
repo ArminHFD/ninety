@@ -126,10 +126,15 @@ export default function Focus() {
     return "Take a Long Break";
   }
 
+  const activeButton = "bg-white text-black dark:bg-gray-800 dark:text-white";
+  const inactiveButton = "bg-gray-100 text-gray-700 dark:bg-gray-600 dark:text-gray-200";
+
   return (
-    <div className="rounded-3xl bg-gray-200 p-5">
-      <h2 className="text-4xl font-extrabold">Focus Timer</h2>
-      <p className="mt-1 text-sm font-semibold text-gray-700">
+    <div className="rounded-[24px] bg-gray-200 p-5 dark:bg-gray-700">
+      <h2 className="text-4xl font-extrabold tracking-tight dark:text-white">
+        Focus Timer
+      </h2>
+      <p className="mt-1 text-sm font-semibold text-gray-700 dark:text-gray-300">
         Deep Work Session
       </p>
 
@@ -137,7 +142,7 @@ export default function Focus() {
         <button
           onClick={() => changeMode("focus")}
           className={`flex-1 rounded-2xl px-4 py-3 text-sm font-semibold shadow-sm ${
-            mode === "focus" ? "bg-white text-black" : "bg-gray-100 text-gray-700"
+            mode === "focus" ? activeButton : inactiveButton
           }`}
         >
           Focus
@@ -146,7 +151,7 @@ export default function Focus() {
         <button
           onClick={() => changeMode("shortBreak")}
           className={`flex-1 rounded-2xl px-4 py-3 text-sm font-semibold shadow-sm ${
-            mode === "shortBreak" ? "bg-white text-black" : "bg-gray-100 text-gray-700"
+            mode === "shortBreak" ? activeButton : inactiveButton
           }`}
         >
           Short Break
@@ -155,36 +160,36 @@ export default function Focus() {
         <button
           onClick={() => changeMode("longBreak")}
           className={`flex-1 rounded-2xl px-4 py-3 text-sm font-semibold shadow-sm ${
-            mode === "longBreak" ? "bg-white text-black" : "bg-gray-100 text-gray-700"
+            mode === "longBreak" ? activeButton : inactiveButton
           }`}
         >
           Long Break
         </button>
       </div>
 
-      <div className="mt-10 text-center text-7xl font-light tracking-wide">
+      <div className="mt-10 text-center text-7xl font-light tracking-wide dark:text-white">
         {formatTime(timeLeft)}
       </div>
 
       <div className="mt-10 flex flex-col items-center gap-3">
         <button
           onClick={handleStartPause}
-          className="rounded-2xl bg-white px-8 py-4 text-2xl font-semibold shadow-sm"
+          className="rounded-2xl bg-white px-8 py-4 text-2xl font-semibold shadow-sm dark:bg-gray-800 dark:text-white"
         >
           {isRunning ? "PAUSE" : "START"}
         </button>
 
         <button
           onClick={handleReset}
-          className="rounded-2xl bg-gray-100 px-6 py-2 text-sm font-semibold shadow-sm"
+          className="rounded-2xl bg-gray-100 px-6 py-2 text-sm font-semibold shadow-sm dark:bg-gray-600 dark:text-white"
         >
           Reset
         </button>
       </div>
 
       <div className="mt-10 text-center">
-        <div className="text-2xl font-semibold">Session #{sessionCount}</div>
-        <div className="mt-1 text-2xl font-semibold">{getSubtitle()}</div>
+        <div className="text-2xl font-semibold dark:text-white">Session #{sessionCount}</div>
+        <div className="mt-1 text-2xl font-semibold dark:text-white">{getSubtitle()}</div>
       </div>
     </div>
   );
