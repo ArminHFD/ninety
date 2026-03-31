@@ -4,7 +4,9 @@ import Journal from "./pages/Journal.jsx";
 import Focus from "./pages/Focus.jsx";
 import Planner from "./pages/Planner.jsx";
 import Settings from "./pages/Settings.jsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { signInUser } from "./utils/firebase";
+import { backupToCloud, restoreFromCloud } from "./utils/sync";
 
 function NavItem({ label, active, onClick }) {
   return (
@@ -22,6 +24,31 @@ function NavItem({ label, active, onClick }) {
 
 export default function App() {
   const [tab, setTab] = useState("Dashboard");
+
+  useEffect(() => {
+    async function setupCloudSync() {
+      try {
+        await signInUser();
+        await restoreFromCloud();
+      } catch (error) {
+        console.error("Cloud sync setup failed:", error);
+      }
+    }
+  
+    setupCloudSync();
+  }, []);
+
+  useEffect(() => {
+    async function syncToCloud() {
+      try {
+        await backupToCloud();
+      } catch (error) {
+        console.error("Cloud backup failed:", error);
+      }
+    }
+  
+    syncToCloud();
+  }, [tab]);
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
